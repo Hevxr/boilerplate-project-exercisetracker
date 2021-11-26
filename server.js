@@ -70,6 +70,14 @@ try {
 
 });
 
+app.get('/api/users/:_id/logs', async function(req, res) {
+  const id = req.params._id;
+  const user = await User.find({_id: id})
+  res.json(user)
+  console.log(user)
+
+})
+
 
 
 const listener = app.listen(process.env.PORT || 3000, () => {
