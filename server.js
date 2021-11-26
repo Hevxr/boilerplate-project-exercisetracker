@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/api/users', async function(req, res) {
-  let newUser = new User({username: req.body.username});
+  let newUser = new User({username: req.body.username, count: 0});
   await newUser.save((error, savedUser) => {
     if (!error) {
       let responseObject = {}
