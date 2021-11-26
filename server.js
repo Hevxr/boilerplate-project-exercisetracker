@@ -26,6 +26,17 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
+app.post('/api/users', async function(req, res) {
+  let newUser = new User({username: req.body.username});
+  await newUser.save((error, savedUser) => {
+    if (!error) {
+      let responseObject = {}
+      responseObject['username'] = savedUser.username
+      responseObject['_id'] = savedUser._id
+      res.json(responseObject)
+    }
+  });
+});
 
 
 
