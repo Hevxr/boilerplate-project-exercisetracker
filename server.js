@@ -5,7 +5,8 @@ require('dotenv').config()
 // Mongoose setup
 const mongoose = require('mongoose')
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-
+app.use(express.json())
+app.use(express.urlencoded())
 const exerciseSessionSchema = new mongoose.Schema({
   description: String,
   duration: Number,
