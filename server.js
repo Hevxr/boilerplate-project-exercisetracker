@@ -38,6 +38,37 @@ app.post('/api/users', async function(req, res) {
   });
 });
 
+app.get('/api/users', async function(req, res) {
+  const response = await User.find();
+  res.json(response);
+})
+app.post('/api/users/:_id/exercises', async function(req, res) {
+// Create a new session
+let newSession = new Session({
+  description: req.body.description,
+  duration: req.body.duration,
+  date: req.body.date
+})
+if (!newSession.date) {
+  newSession.date = Date.now()
+}
+try {
+  newSession.date = new Date(newSession.date).toDateString()
+  await User.findByIdAndUpdate(req.params._id, {$inc:{count: 1}, $push: {log: newSession}}, {new: 1}, (error, updatedUser) => {
+    let responseObject = {}
+    responseObject['_id'] = updatedUser._id
+    responseObject['username'] = updatedUser.username
+    responseObject['date'] = newSession.date
+    responseObject['description'] = newSession.description
+    responseObject['duration'] = newSession.duration
+    res.json(responseObject)
+})
+
+} catch(error) {
+  console.log(error);
+}
+
+});
 
 
 
